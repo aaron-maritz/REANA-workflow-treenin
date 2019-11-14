@@ -1,0 +1,15 @@
+stages:
+- name: evaluation
+  dependencies: [init]
+  scheduler:
+    scheduler_type: singlestep-stage
+    parameters:
+    step: {$ref: 'steps.yml#/treenin'}
+- name: reporting
+  dependencies: [evaluation]
+  scheduler:
+    scheduler_type: singlestep-stage
+    parameters:
+      inputfile: {step: evaluation, output: msgfile}
+      outputfile:
+    step: {$ref: 'steps.yml#/report'}

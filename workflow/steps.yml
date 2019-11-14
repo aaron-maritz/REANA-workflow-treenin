@@ -1,0 +1,10 @@
+treenin:
+  process:
+    process_type:
+    script:
+  publisher:
+    publisher_type:
+    publish:
+  environment:
+    environment_type: docker-encapsulated
+    image: smacaluso/treenin:1.0.0
