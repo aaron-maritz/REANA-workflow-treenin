@@ -15,10 +15,13 @@ Steps to succeed:
   
   At this point -> the entire analysis is done, it just needs to be tied together in a workflow.
   This is the .workflow part -> take the input from one, tie it into another etc...
+  See -> https://github.com/reanahub/reana-demo-bsm-search/blob/master/workflow/wflow_all_mc.yml
   
   **** At this point local testing should still function, after this is REANA ****
   
  finish REANA.yaml file -> run using minikube. (Change server_url/access_token) See reana site for usage.
+ see -> https://github.com/reanahub/reana-demo-bsm-search/blob/master/reana.yaml
+ 
  $ # create new virtual environment
 $ virtualenv ~/.virtualenvs/myreana
 $ source ~/.virtualenvs/myreana/bin/activate
