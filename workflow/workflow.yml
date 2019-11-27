@@ -5,15 +5,19 @@ stages:
 - name: evaluation
   dependencies: [init]
   scheduler:
-    scheduler_type: singlestep-stage
+    scheduler_type: multi-step-stage
     parameters:
+      # init is used in a prior example, I'm assuming it comes from initialization, but how do we know where it's passed in
+      # want to get it from the command line.
       input: {step: init, output: input}
+      # Assume it makes a results.txt file if it does not already exist.
       outputfile: '{workdir}/results.txt'
     steps:
       data:
         process:
           process_type: interpolated-script-cmd
           interpreter: bash
+          # See if this step gets access to the input parameter, maybe make it default to 0?
           script: python dataWorkflow.py {input} /code/top_reference_dataset/in_data/test.h5
         publisher:
           publisher_type: interpolated-pub
@@ -47,4 +51,5 @@ stages:
           environment_type: docker-encapsulated
           image: smacaluso/treenin:1.0.0
           
+        # Check that outputfile was the same for all cases, and that it did not overwrite itself each time
         # Can add an option to plot in this next step. Should it be stages?
