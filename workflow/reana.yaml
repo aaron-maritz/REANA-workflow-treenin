@@ -8,5 +8,5 @@ inputs:
     file: workflow.yml
   outputs:
     files:
-    - results/output.txt
+    - results.txt
     # See if we want these graphed
