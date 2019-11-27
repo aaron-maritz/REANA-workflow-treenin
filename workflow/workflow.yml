@@ -1,5 +1,6 @@
 # Question... How does the input parameter work?
 # Are the steps independent.. Or does the image load every time?
+# Stages vs steps
 stages:
 - name: evaluation
   dependencies: [init]
