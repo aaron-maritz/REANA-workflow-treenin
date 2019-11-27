@@ -1,38 +1,44 @@
+# Question... How does the input parameter work?
+# Are the steps independent.. Or does the image load every time?
 stages:
 - name: evaluation
   dependencies: [init]
   scheduler:
     scheduler_type: singlestep-stage
     parameters:
-    step: {$ref: 'steps.yml#/treenin'}
-- name: reporting
-  dependencies: [evaluation]
-  scheduler:
-    scheduler_type: singlestep-stage
-    parameters:
-      inputfile: {step: evaluation, output: msgfile}
-      outputfile:
-    step: {$ref: 'steps.yml#/report'}
-dataworkflow:
-  process:
-    process_type: interpolated-script-cmd
-    script: python dataWorkflow.py {param} /code/top_reference_dataset/in_data/test.h5
-  publisher:
-    publisher_type: interpolated-pub
-    publish:
-      msgfile: '{outputfile}'
-  environment:
-    environment_type: docker-encapsulated
-    image: smacaluso/treenin:1.0.0
-
-treenin:
-  process:
-    process_type:
-  publisher:
-  environment:
-
-reporting:
-  process:
-    process_type:
-  publisher:
-  environment:
+      input: {step: init, output: input}
+      outputfile: '{workdir}/results.txt'
+    steps:
+      data:
+        process:
+          process_type: interpolated-script-cmd
+          script: python dataWorkflow.py {input} /code/top_reference_dataset/in_data/test.h5
+        publisher:
+          publisher_type: interpolated-pub
+          publish:
+            msgfile: '{outputfile}'
+        environment:
+          environment_type: docker-encapsulated
+          image: smacaluso/treenin:1.0.0
+      treenin:
+        process:
+          process_type: interpolated-script-cmd
+          script: python MLWorkflow.py 0 9
+        publisher:
+          publisher_type: interpolated-pub
+          publish:
+            msgfile: '{outputfile}'
+        environment:
+          environment_type: docker-encapsulated
+          image: smacaluso/treenin:1.0.0
+      save:
+        process:
+          process_type: interpolated-script-cmd
+          script: python3 saveProb.py
+        publisher:
+          publisher_type: interpolated-pub
+          publish:
+            msgfile: '{outputfile}'
+        environment:
+          environment_type: docker-encapsulated
+          image: smacaluso/treenin:1.0.0
