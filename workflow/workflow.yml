@@ -13,6 +13,7 @@ stages:
       data:
         process:
           process_type: interpolated-script-cmd
+          interpreter: bash
           script: python dataWorkflow.py {input} /code/top_reference_dataset/in_data/test.h5
         publisher:
           publisher_type: interpolated-pub
@@ -24,6 +25,7 @@ stages:
       treenin:
         process:
           process_type: interpolated-script-cmd
+          interpreter: bash
           script: python MLWorkflow.py 0 9
         publisher:
           publisher_type: interpolated-pub
@@ -35,6 +37,7 @@ stages:
       save:
         process:
           process_type: interpolated-script-cmd
+          interpreter: bash
           script: python3 saveProb.py
         publisher:
           publisher_type: interpolated-pub
@@ -43,3 +46,5 @@ stages:
         environment:
           environment_type: docker-encapsulated
           image: smacaluso/treenin:1.0.0
+          
+        # Can add an option to plot in this next step. Should it be stages?
